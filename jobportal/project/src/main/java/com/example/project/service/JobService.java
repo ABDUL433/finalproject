@@ -20,3 +20,4 @@ public class JobService {
         return jobRepository.findAll();
     }
 }
+
