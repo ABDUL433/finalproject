@@ -1,32 +1,35 @@
 import React, { useState } from "react";
 import LoginPage from "./components/LoginPage";
+import SignupPage from "./components/SignupPage";
 import JobForm from "./components/JobForm";
-import JobList from "./components/JobLIst";
+import JobList from "./components/JobList";
 
 function App() {
   const [role, setRole] = useState(null);
-  const [username, setUsername] = useState("");
+  const [page, setPage] = useState("login");
 
-  const handleLoginSuccess = (userRole, userName) => {
-    setRole(userRole);
-    setUsername(userName);
+  const handleLoginSuccess = (r) => {
+    setRole(r);
   };
 
+  if (page === "signup") {
+    return (
+      <SignupPage onSignupSuccess={() => setPage("login")} />
+    );
+  }
+
   if (!role) {
-    return <LoginPage onLoginSuccess={handleLoginSuccess} />;
+    return (
+      <LoginPage
+        onLoginSuccess={handleLoginSuccess}
+        goToSignup={() => setPage("signup")}
+      />
+    );
   }
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">
-        Welcome, {username} ({role})
-      </h2>
-
-      {role === "admin" ? (
-        <JobForm />
-      ) : (
-        <JobList username={username} />
-      )}
+      {role === "admin" ? <JobForm /> : <JobList />}
     </div>
   );
 }
