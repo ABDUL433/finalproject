@@ -24,3 +24,4 @@ public class JobController {
         return jobService.getAllJobs();
     }
 }
+
