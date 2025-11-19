@@ -13,6 +13,19 @@ public class AuthController {
     @Autowired
     private UserRepository userRepository;
 
+    // ✅ SIGNUP API
+    @PostMapping("/register")
+    public String registerUser(@RequestBody User user) {
+        User existing = userRepository.findByUsername(user.getUsername());
+        if (existing != null) {
+            return "Username already taken";
+        }
+
+        userRepository.save(user);
+        return "Signup successful";
+    }
+
+    // ✅ LOGIN API
     @PostMapping("/login")
     public String loginUser(@RequestBody User loginRequest) {
         String username = loginRequest.getUsername();
@@ -31,3 +44,4 @@ public class AuthController {
         return "Login successful";
     }
 }
+
